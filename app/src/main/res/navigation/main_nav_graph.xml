@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/cardHomeFragment">
+
+    <fragment
+        android:id="@+id/cardHomeFragment"
+        android:name="co.init.scratchcardapp.features.card_home.CardHomeFragment"
+        android:label="Contacts"
+        tools:layout="@layout/card_home_fragment">
+
+        <action
+            android:id="@+id/action_cardHomeFragment_to_scratchCardFragment"
+            app:destination="@id/scratchCardFragment" />
+
+        <action
+            android:id="@+id/action_cardHomeFragment_to_cardActivationFragment"
+            app:destination="@id/cardActivationFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/scratchCardFragment"
+        android:name="co.init.scratchcardapp.features.card_scratch.ScratchCardFragment"
+        android:label="ScratchCardFragment"
+        tools:layout="@layout/scratch_card_fragment" />
+
+    <fragment
+        android:id="@+id/cardActivationFragment"
+        android:name="co.init.scratchcardapp.features.card_activation.ui.CardActivationFragment"
+        android:label="CardActivationFragment"
+        tools:layout="@layout/card_activation_fragment" />
+
+</navigation>
