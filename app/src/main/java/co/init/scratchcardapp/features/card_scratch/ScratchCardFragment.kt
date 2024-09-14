@@ -8,12 +8,12 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import co.init.base.BaseFragment
 import co.init.common.extensions.onClickDebounce
-import co.init.scratchcardapp.MainActivityVM
+import co.init.scratchcardapp.ScratchCardSharedVM
 import co.init.scratchcardapp.databinding.ScratchCardFragmentBinding
 
 class ScratchCardFragment : BaseFragment<ScratchCardFragmentBinding>() {
 
-    private val sharedActivityViewModel: MainActivityVM by activityViewModels()
+    private val sharedActivityViewModel: ScratchCardSharedVM by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,14 +25,13 @@ class ScratchCardFragment : BaseFragment<ScratchCardFragmentBinding>() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         setupButton()
         initObservers()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        sharedActivityViewModel.cancelScratch()
-    }
+    override fun onBackPressed() { sharedActivityViewModel.cancelScratch() }
 
     private fun setupButton() {
         binding.scratchCardBtn.onClickDebounce {
@@ -41,8 +40,9 @@ class ScratchCardFragment : BaseFragment<ScratchCardFragmentBinding>() {
     }
 
     private fun initObservers() {
-        sharedActivityViewModel.scratchCardLiveData.observe(viewLifecycleOwner) { card ->
+        sharedActivityViewModel.scratchCardState.observe(viewLifecycleOwner) { card ->
             binding.cardNumberValue.text = card.cardNumber
+            binding.scratchCardBtn.isEnabled = !card.isScratched
         }
 
         sharedActivityViewModel.scratchCardLoading.observe(viewLifecycleOwner) { isLoading ->

@@ -9,13 +9,13 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import co.init.base.BaseFragment
 import co.init.common.extensions.onClickDebounce
-import co.init.scratchcardapp.MainActivityVM
 import co.init.scratchcardapp.R
+import co.init.scratchcardapp.ScratchCardSharedVM
 import co.init.scratchcardapp.databinding.CardHomeFragmentBinding
 
 class CardHomeFragment : BaseFragment<CardHomeFragmentBinding>() {
 
-    private val sharedActivityViewModel: MainActivityVM by activityViewModels()
+    private val sharedActivityViewModel: ScratchCardSharedVM by activityViewModels()
     private val navController: NavController by lazy { findNavController() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -41,7 +41,7 @@ class CardHomeFragment : BaseFragment<CardHomeFragmentBinding>() {
     }
 
     private fun initObservers() {
-        sharedActivityViewModel.scratchCardLiveData.observe(viewLifecycleOwner) { card ->
+        sharedActivityViewModel.scratchCardState.observe(viewLifecycleOwner) { card ->
             binding.scratchCardStateValue.text = card.cardState.toString()
         }
     }

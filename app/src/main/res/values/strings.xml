@@ -12,7 +12,7 @@
     <string name="activation_card__card_state">Card state:</string>
     <string name="activation_card__activation_success">Card activation success</string>
     <string name="activation_card__activation_error">Card activation failed</string>
-    <string name="activation_card__activation_error_card_not_ready_to_activate">Card is not ready for activation. Scratch it first</string>
+    <string name="activation_card__activation_error_card_not_ready_to_activate">Card is not ready for activation.</string>
 
     <string name="common__general_error">Unexpected error occurred</string>
 

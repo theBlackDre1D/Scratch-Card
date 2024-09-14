@@ -7,5 +7,5 @@ import retrofit2.http.Query
 interface ScratchedCardService {
 
     @GET("version")
-    suspend fun activateCard(@Query("code") code: String): Response<CardActivationResponse>
+    suspend fun activateCard(@Query("code") code: String?): Response<CardActivationResponse>
 }

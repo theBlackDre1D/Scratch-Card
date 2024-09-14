@@ -8,15 +8,15 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import co.init.base.BaseFragment
 import co.init.common.extensions.onClickDebounce
-import co.init.scratchcardapp.MainActivityVM
 import co.init.scratchcardapp.R
+import co.init.scratchcardapp.ScratchCardSharedVM
 import co.init.scratchcardapp.data.throwables.CanNotActivateCardThrowable
 import co.init.scratchcardapp.data.throwables.FailedActivationThrowable
 import co.init.scratchcardapp.databinding.CardActivationFragmentBinding
 
 class CardActivationFragment : BaseFragment<CardActivationFragmentBinding>() {
 
-    private val sharedActivityViewModel: MainActivityVM by activityViewModels()
+    private val sharedActivityViewModel: ScratchCardSharedVM by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,6 +28,8 @@ class CardActivationFragment : BaseFragment<CardActivationFragmentBinding>() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         setupButton()
         initObservers()
     }
@@ -60,8 +62,9 @@ class CardActivationFragment : BaseFragment<CardActivationFragmentBinding>() {
             )
         }
 
-        sharedActivityViewModel.scratchCardLiveData.observe(viewLifecycleOwner) { card ->
+        sharedActivityViewModel.scratchCardState.observe(viewLifecycleOwner) { card ->
             binding.scratchCardStateValueTV.text = card.cardState.toString()
+            binding.activateCardB.isEnabled = !card.isActivated
         }
     }
 }

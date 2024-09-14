@@ -19,11 +19,11 @@ fun View.onClickDebounce(onClick: (View) -> Unit) {
     })
 }
 
-class LastInteraction(var ms: Long = 0) {
+private class LastInteraction(var ms: Long = 0) {
     fun update() { ms = SystemClock.elapsedRealtime()}
 }
 
-fun debounce(debounceTimerMs: Long, lastInteraction: LastInteraction, action: () -> Unit) {
+private fun debounce(debounceTimerMs: Long, lastInteraction: LastInteraction, action: () -> Unit) {
     if (SystemClock.elapsedRealtime() - lastInteraction.ms < debounceTimerMs) {
         return
     } else {

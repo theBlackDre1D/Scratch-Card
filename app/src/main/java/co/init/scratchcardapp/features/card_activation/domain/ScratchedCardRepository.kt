@@ -6,5 +6,5 @@ class ScratchedCardRepository @Inject constructor(
     private val remoteDataSource: ScratchedCardRemoteDataSource
 ) {
 
-    suspend fun activateCard(cardNumber: String) = remoteDataSource.activateCard(cardNumber)
+    suspend fun activateCard(cardNumber: String?) = remoteDataSource.activateCard(cardNumber)
 }
