@@ -2,7 +2,7 @@ package co.init.scratchcardapp.features.card_activation.domain
 
 import co.init.scratchcardapp.data.Card
 import co.init.scratchcardapp.data.ScratchCardState
-import co.init.scratchcardapp.data.throwables.CanNotActivateCardThrowable
+import co.init.scratchcardapp.data.throwables.FailedActivationThrowable
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -19,7 +19,7 @@ class ActivateScratchedCardUseCase @Inject constructor(
                     val activatedCard = card.copy(cardState = ScratchCardState.ACTIVATED)
                     return@fold Result.success(activatedCard)
                 } else {
-                    return@fold Result.failure(CanNotActivateCardThrowable())
+                    return@fold Result.failure(FailedActivationThrowable())
                 }
             },
             onFailure = {

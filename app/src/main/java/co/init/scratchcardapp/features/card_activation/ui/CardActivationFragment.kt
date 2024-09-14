@@ -4,15 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import co.init.base.BaseFragment
 import co.init.common.extensions.onClickDebounce
 import co.init.scratchcardapp.R
 import co.init.scratchcardapp.ScratchCardSharedVM
-import co.init.scratchcardapp.data.throwables.CanNotActivateCardThrowable
-import co.init.scratchcardapp.data.throwables.FailedActivationThrowable
 import co.init.scratchcardapp.databinding.CardActivationFragmentBinding
+import co.init.scratchcardapp.dialogManager.DialogManager
+import co.init.scratchcardapp.errorManager.ErrorManager
 
 class CardActivationFragment : BaseFragment<CardActivationFragmentBinding>() {
 
@@ -42,21 +41,16 @@ class CardActivationFragment : BaseFragment<CardActivationFragmentBinding>() {
 
     private fun initObservers() {
         sharedActivityViewModel.activateCardResult.observe(viewLifecycleOwner) { result ->
-            result.fold(
+            result?.fold(
                 onSuccess = {
-                    context?.let { nonNullContext ->
-                        Toast.makeText(nonNullContext, R.string.activation_card__activation_success, Toast.LENGTH_SHORT).show()
+                    DialogManager.showSuccessOkDialog(context, getString(R.string.activation_card__activation_success)) {
+                        sharedActivityViewModel.resetActivationResult()
                     }
                 },
                 onFailure = { throwable ->
-                    context?.let { nonNullContext ->
-                        val errorTextResId = when (throwable) {
-                            is CanNotActivateCardThrowable -> R.string.activation_card__activation_error_card_not_ready_to_activate
-                            is FailedActivationThrowable -> R.string.activation_card__activation_error
-                            else -> R.string.common__general_error
-                        }
-
-                        Toast.makeText(nonNullContext, errorTextResId, Toast.LENGTH_SHORT).show()
+                    val errorText = ErrorManager.getMessageFromThrowable(context, throwable)
+                    DialogManager.showErrorOkDialog(context, errorText) {
+                        sharedActivityViewModel.resetActivationResult()
                     }
                 }
             )

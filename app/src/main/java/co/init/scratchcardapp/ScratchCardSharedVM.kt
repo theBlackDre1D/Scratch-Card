@@ -3,7 +3,6 @@ package co.init.scratchcardapp
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import co.init.base.BaseVM
-import co.init.common.SingleLiveEvent
 import co.init.common.extensions.doInCoroutine
 import co.init.common.extensions.doInIOCoroutine
 import co.init.common.extensions.safe
@@ -25,8 +24,8 @@ class ScratchCardSharedVM @Inject constructor(
     private val _scratchCardState = MutableLiveData(Card())
     val scratchCardState: LiveData<Card> = _scratchCardState
 
-    private val _activateCardResult = SingleLiveEvent<Result<Card>>()
-    val activateCardResult: LiveData<Result<Card>> = _activateCardResult
+    private val _activateCardResult = MutableLiveData<Result<Card>?>()
+    val activateCardResult: LiveData<Result<Card>?> = _activateCardResult
 
     private val _scratchCardLoading = MutableLiveData<Boolean>()
     val scratchCardLoading: LiveData<Boolean> get() = _scratchCardLoading
@@ -52,6 +51,10 @@ class ScratchCardSharedVM @Inject constructor(
     fun cancelScratch() {
         _scratchCardLoading.value = false
         scratchCardJob?.cancel()
+    }
+
+    fun resetActivationResult() {
+        _activateCardResult.value = null
     }
 
     fun activateCard() {
