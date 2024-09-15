@@ -10,8 +10,8 @@ import androidx.navigation.fragment.findNavController
 import co.init.base.BaseFragment
 import co.init.common.extensions.onClickDebounce
 import co.init.scratchcardapp.R
-import co.init.scratchcardapp.ScratchCardSharedVM
 import co.init.scratchcardapp.databinding.CardHomeFragmentBinding
+import co.init.scratchcardapp.features.ScratchCardSharedVM
 
 class CardHomeFragment : BaseFragment<CardHomeFragmentBinding>() {
 

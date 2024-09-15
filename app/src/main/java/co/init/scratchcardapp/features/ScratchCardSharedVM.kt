@@ -1,4 +1,4 @@
-package co.init.scratchcardapp
+package co.init.scratchcardapp.features
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

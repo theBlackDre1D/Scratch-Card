@@ -8,10 +8,10 @@ import androidx.fragment.app.activityViewModels
 import co.init.base.BaseFragment
 import co.init.common.extensions.onClickDebounce
 import co.init.scratchcardapp.R
-import co.init.scratchcardapp.ScratchCardSharedVM
 import co.init.scratchcardapp.databinding.CardActivationFragmentBinding
 import co.init.scratchcardapp.dialogManager.DialogManager
 import co.init.scratchcardapp.errorManager.ErrorManager
+import co.init.scratchcardapp.features.ScratchCardSharedVM
 
 class CardActivationFragment : BaseFragment<CardActivationFragmentBinding>() {
 

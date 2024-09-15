@@ -1,4 +1,4 @@
-package co.init.scratchcardapp
+package co.init.scratchcardapp.features
 
 import android.os.Bundle
 import co.init.base.BaseActivity

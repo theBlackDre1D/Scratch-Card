@@ -8,8 +8,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import co.init.base.BaseFragment
 import co.init.common.extensions.onClickDebounce
-import co.init.scratchcardapp.ScratchCardSharedVM
 import co.init.scratchcardapp.databinding.ScratchCardFragmentBinding
+import co.init.scratchcardapp.features.ScratchCardSharedVM
 
 class ScratchCardFragment : BaseFragment<ScratchCardFragmentBinding>() {
 
