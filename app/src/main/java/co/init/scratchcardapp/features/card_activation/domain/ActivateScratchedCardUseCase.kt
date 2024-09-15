@@ -2,7 +2,7 @@ package co.init.scratchcardapp.features.card_activation.domain
 
 import co.init.scratchcardapp.data.Card
 import co.init.scratchcardapp.data.ScratchCardState
-import co.init.scratchcardapp.data.throwables.FailedActivationThrowable
+import co.init.scratchcardapp.dialogManager.throwables.FailedActivationThrowable
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 

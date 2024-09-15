@@ -7,7 +7,7 @@ import co.init.common.extensions.doInCoroutine
 import co.init.common.extensions.doInIOCoroutine
 import co.init.common.extensions.safe
 import co.init.scratchcardapp.data.Card
-import co.init.scratchcardapp.data.throwables.CanNotActivateCardThrowable
+import co.init.scratchcardapp.dialogManager.throwables.CanNotActivateCardThrowable
 import co.init.scratchcardapp.features.card_activation.domain.ActivateScratchedCardUseCase
 import co.init.scratchcardapp.features.card_activation.domain.ScratchCardUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
