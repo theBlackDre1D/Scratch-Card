@@ -2,59 +2,59 @@ package co.init.scratchcardapp
 
 import co.init.scratchcardapp.data.Card
 import co.init.scratchcardapp.data.ScratchCardState
-import junit.framework.TestCase.assertEquals
-import junit.framework.TestCase.assertNull
-import org.junit.Assert.assertNotEquals
-import org.junit.Test
-
+import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Test
+import java.util.UUID
 
 class CardTest {
 
     @Test
-    fun `testDefaultConstructor`() {
-        val card = Card()
-
-        assertNull(card.cardNumber)
-        assertEquals(ScratchCardState.INITIAL, card.cardState)
+    fun `canBeActivated should return true when cardState is NEEDS_ACTIVATION and cardNumber is not null`() {
+        val card = Card(cardNumber = "12345", cardState = ScratchCardState.NEEDS_ACTIVATION)
+        assertTrue(card.canBeActivated)
     }
 
     @Test
-    fun `testParameterizedConstructor`() {
-        val cardNumber = "1234567890"
-        val cardState = ScratchCardState.INITIAL
-
-        val card = Card(cardNumber, cardState)
-
-        assertEquals(cardNumber, card.cardNumber)
-        assertEquals(cardState, card.cardState)
+    fun `canBeActivated should return false when cardState is not NEEDS_ACTIVATION`() {
+        val card = Card(cardNumber = "12345", cardState = ScratchCardState.INITIAL)
+        assertFalse(card.canBeActivated)
     }
 
     @Test
-    fun `testCopyConstructor`() {
-        val originalCard = Card("1234567890", ScratchCardState.ACTIVATED)
-        val copyCard = originalCard.copy()
-
-        assertEquals(originalCard.cardNumber, copyCard.cardNumber)
-        assertEquals(originalCard.cardState, copyCard.cardState)
+    fun `canBeActivated should return false when cardNumber is null`() {
+        val card = Card(cardNumber = null, cardState = ScratchCardState.NEEDS_ACTIVATION)
+        assertFalse(card.canBeActivated)
     }
 
     @Test
-    fun `testEqualsAndHashCode`() {
-        val card1 = Card("1234567890", ScratchCardState.ACTIVATED)
-        val card2 = Card("1234567890", ScratchCardState.ACTIVATED)
-        val card3 = Card("9876543210", ScratchCardState.INITIAL)
-
-        assertEquals(card1, card2)
-        assertNotEquals(card1, card3)
-        assertEquals(card1.hashCode(), card2.hashCode())
-        assertNotEquals(card1.hashCode(), card3.hashCode())
+    fun `isActivated should return true when cardState is ACTIVATED`() {
+        val card = Card(cardState = ScratchCardState.ACTIVATED)
+        assertTrue(card.isActivated)
     }
 
     @Test
-    fun `testToString`() {
-        val card = Card("1234567890", ScratchCardState.ACTIVATED)
-        val expectedString = "Card(cardNumber=1234567890, cardState=ACTIVATED)"
+    fun `isActivated should return false when cardState is not ACTIVATED`() {
+        val card = Card(cardState = ScratchCardState.INITIAL)
+        assertFalse(card.isActivated)
+    }
 
-        assertEquals(expectedString, card.toString())
+    @Test
+    fun `isScratched should return true when cardNumber is not null`() {
+        val card = Card(cardNumber = "12345")
+        assertTrue(card.isScratched)
+    }
+
+    @Test
+    fun `isScratched should return false when cardNumber is null`() {
+        val card = Card(cardNumber = null)
+        assertFalse(card.isScratched)
+    }
+
+    @Test
+    fun `generatePartNumber should return a valid UUID string`() {
+        val partNumber = Card.generatePartNumber()
+        assertDoesNotThrow {
+            UUID.fromString(partNumber) // will throw IllegalArgumentException if not valid UUID
+        }
     }
 }
