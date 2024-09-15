@@ -42,6 +42,7 @@ object DialogManager {
             val builder = AlertDialog.Builder(nonNullContext)
             builder.setTitle(title)
             builder.setMessage(message)
+            builder.setCancelable(false)
 
             builder.setPositiveButton(nonNullContext.getText(R.string.common__ok)) { dialog, _ ->
                 onPositiveButtonClick?.invoke()
