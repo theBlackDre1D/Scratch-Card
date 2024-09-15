@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import co.init.base.BaseFragment
 import co.init.common.extensions.onClickDebounce
+import co.init.common.extensions.safe
 import co.init.scratchcardapp.R
 import co.init.scratchcardapp.databinding.CardActivationFragmentBinding
 import co.init.scratchcardapp.dialogManager.DialogManager
@@ -56,9 +57,9 @@ class CardActivationFragment : BaseFragment<CardActivationFragmentBinding>() {
             )
         }
 
-        sharedActivityViewModel.scratchCardState.observe(viewLifecycleOwner) { card ->
-            binding.scratchCardStateValueTV.text = card.cardState.toString()
-            binding.activateCardB.isEnabled = !card.isActivated
+        sharedActivityViewModel.scratchCardState.observe(viewLifecycleOwner) { state ->
+            binding.scratchCardStateValueTV.text = state.card?.cardState.toString()
+            binding.activateCardB.isEnabled = !state.card?.isActivated.safe()
         }
     }
 }

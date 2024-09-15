@@ -8,6 +8,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import co.init.base.BaseFragment
 import co.init.common.extensions.onClickDebounce
+import co.init.common.extensions.safe
 import co.init.scratchcardapp.databinding.ScratchCardFragmentBinding
 import co.init.scratchcardapp.features.ScratchCardSharedVM
 
@@ -40,13 +41,10 @@ class ScratchCardFragment : BaseFragment<ScratchCardFragmentBinding>() {
     }
 
     private fun initObservers() {
-        sharedActivityViewModel.scratchCardState.observe(viewLifecycleOwner) { card ->
-            binding.cardNumberValue.text = card.cardNumber
-            binding.scratchCardBtn.isEnabled = !card.isScratched
-        }
-
-        sharedActivityViewModel.scratchCardLoading.observe(viewLifecycleOwner) { isLoading ->
-            binding.progress.isVisible = isLoading
+        sharedActivityViewModel.scratchCardState.observe(viewLifecycleOwner) { state ->
+            binding.cardNumberValue.text = state.card?.cardNumber
+            binding.scratchCardBtn.isEnabled = !state.card?.isScratched.safe()
+            binding.progress.isVisible = state.loading
         }
     }
 }

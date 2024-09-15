@@ -21,14 +21,16 @@ class ScratchCardSharedVM @Inject constructor(
     private val scratchedCardUseCase: ScratchCardUseCase
 ) : BaseVM() {
 
-    private val _scratchCardState = MutableLiveData(Card())
-    val scratchCardState: LiveData<Card> = _scratchCardState
+    data class ScratchCardState(
+        val card: Card? = Card(),
+        val loading: Boolean = false
+    )
+
+    private val _scratchCardState = MutableLiveData(ScratchCardState())
+    val scratchCardState: LiveData<ScratchCardState> = _scratchCardState
 
     private val _activateCardResult = MutableLiveData<Result<Card>?>()
     val activateCardResult: LiveData<Result<Card>?> = _activateCardResult
-
-    private val _scratchCardLoading = MutableLiveData<Boolean>()
-    val scratchCardLoading: LiveData<Boolean> get() = _scratchCardLoading
 
     private var scratchCardJob: Job? = null
     private var activationJob: Job? = null
@@ -37,19 +39,21 @@ class ScratchCardSharedVM @Inject constructor(
         if (scratchCardJob?.isActive.safe()) return
 
         scratchCardJob = doInCoroutine {
-            _scratchCardState.value?.let { card ->
-                _scratchCardLoading.value = true
+            _scratchCardState.value?.card?.let { card ->
+                _scratchCardState.value = _scratchCardState.value?.copy(loading = true)
 
                 scratchedCardUseCase(card).collect { result ->
-                    _scratchCardState.value = result.getOrNull()
-                    _scratchCardLoading.value = false
+                    _scratchCardState.value = _scratchCardState.value?.copy(
+                        card = result.getOrNull(),
+                        loading = false
+                    )
                 }
             }
         }
     }
 
     fun cancelScratch() {
-        _scratchCardLoading.value = false
+        _scratchCardState.value = _scratchCardState.value?.copy(loading = false)
         scratchCardJob?.cancel()
     }
 
@@ -61,10 +65,12 @@ class ScratchCardSharedVM @Inject constructor(
         if (activationJob?.isActive.safe()) return
 
         activationJob = doInIOCoroutine {
-            _scratchCardState.value?.let { card ->
+            _scratchCardState.value?.card?.let { card ->
                 if (card.canBeActivated) {
                     activateScratchedCardUseCase(card).collect { result ->
-                        result.onSuccess { card -> _scratchCardState.postValue(card) }
+                        result.onSuccess { card ->
+                            _scratchCardState.postValue(_scratchCardState.value?.copy(card = card))
+                        }
                         _activateCardResult.postValue(result)
                     }
                 } else {

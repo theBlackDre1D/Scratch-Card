@@ -41,8 +41,8 @@ class CardHomeFragment : BaseFragment<CardHomeFragmentBinding>() {
     }
 
     private fun initObservers() {
-        sharedActivityViewModel.scratchCardState.observe(viewLifecycleOwner) { card ->
-            binding.scratchCardStateValue.text = card.cardState.toString()
+        sharedActivityViewModel.scratchCardState.observe(viewLifecycleOwner) { state ->
+            binding.scratchCardStateValue.text = state.card?.cardState.toString()
         }
     }
 }
